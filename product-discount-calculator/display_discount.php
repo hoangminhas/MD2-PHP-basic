@@ -1,13 +1,15 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
-    $listPrice = $_POST["price"];
-    $discountPercent = $_POST["discount"];
+if($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
-    $discountAmount = $listPrice * $discountPercent * 0.1;
-    echo "Mo ta: $description<br>";
-    echo "Gia niem yet: $listPrice<br>";
-    echo "Ty le chiet khau: $listPrice<br>";
-    echo "Luong chiet khau: $discountAmount<br>";
-    echo "Gia sau khi chiet khau: $listPrice - $discountAmount";
+    $price = $_POST["price"];
+    $discount = $_POST["discount"];
+    $disAmount = $price / 100 * $discount;
+
+    echo "<pre>";
+    echo "Mo ta: " .$description."<br>";
+    echo "Gia: " .number_format($price, 0, '', ',')."<br>";
+    echo "Chiet khau: " .$discount."% <br>";
+    echo "<hr>";
+    echo "Luong chiet khau: " . number_format($disAmount, 0, '', ',') ."<br>";
+    echo "Gia sau cung: " . number_format($price - $disAmount, 0, '', ",");
 }
-?>
