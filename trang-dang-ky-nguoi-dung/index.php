@@ -28,21 +28,29 @@
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_SERVER["name"];
-    $email = $_SERVER["email"];
-    $phone = $_SERVER["number"];
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $phone = $_POST["number"];
     if (empty($name) || empty($phone)) {
         echo "Ghi thieu username hoac so dien thoai.";
+    } if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Sai form email";
     } else {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        saveDataJSON('users.json', $name, $email, $phone);
     }
+
+
+}
+function saveDataJSON($fileName, $name, $email, $phone){
+    $contact = [$name, $email, $phone];
+    $dataList = loadData($fileName);
+    $dataList[] = $contact;
+    $dataJSON = json_encode($dataList);
+    file_put_contents($fileName, $dataJSON);
 }
 
 function loadData($fileName) {
-    $jasonData = file_get_contents($fileName);
-    return json_decode($jasonData, true);
+    $jsonData = file_get_contents($fileName);
+    return json_decode($jsonData);
 }
 
-function saveDataJSON($fileName, $name, $email, $phone){
-
-}
